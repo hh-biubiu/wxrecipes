@@ -1,0 +1,36 @@
+<view>
+  <!-- 搜索栏 -->
+  <view class="search">
+    <view class="search-box">
+      <input type="text" value="{{value}}"  bindinput="seaval" placeholder="请输入菜谱名称" placeholder-class="p-box"/>
+      <icon type="search" data-tag="search" data-title="搜索结果" color="#fff" size="30" bindtap="_search"></icon>
+    </view>
+  </view>
+
+  <!-- 热门搜索  -->
+  <view class="hot-search">
+    <view class="hot-search-title">
+      热门搜索
+    </view>
+    <view class="hot-search-list">
+      <view wx:for="{{hotArr}}" bindtap="toDetail" data-name="{{userInfo[index].data[0].nickName}}" data-img="{{userInfo[index].data[0].avatarUrl}}" data-id="{{item._id}}" data-title="{{item.recipeName}}">
+       {{item.recipeName}}
+      </view>
+    </view>
+  </view>
+  <!-- 近期搜索  -->
+  <view class="hot-search">
+    <view class="hot-search-title">
+      近期搜索
+    </view>
+    <view class="hot-search-list" wx:if="{{nowList.length>0}}">
+      <view wx:for="{{nowList}}" bindtap="toNow" data-name="{{item}}">
+         {{item}}
+      </view>
+    </view>
+    <view wx:else>
+      暂无记录
+    </view>
+
+  </view>
+</view>

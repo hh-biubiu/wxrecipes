@@ -1,0 +1,134 @@
+<view>
+  <!-- 顶部用户信息 -->
+  <view class="header">
+    <!-- 未登录页面 -->
+    <view class="no-login" wx:if="{{ !isLogin }}">
+      <image src="../../static/my/logo1.jpg"></image>
+      <button open-type="getUserInfo" bindgetuserinfo="doLogin" size="mini" plain="{{ true }}">登录</button>
+    </view>
+    <!-- 登录页面 -->
+    <view class="login" wx:else>
+      <image src="{{userInfo.avatarUrl}}" bindtap="toCart"></image>
+      <view class="name">
+        {{userInfo.nickName}}
+      </view>
+    </view>
+  </view>
+
+  
+
+  <!-- 内容显示 -->
+  <!-- 未登录时 -->
+  <view class="body-nologin" wx:if="{{ !isLogin }}">
+    <view class="content-body-nologin">
+      <image src="../../static/my/nologin.jpg"></image>
+      <view>可以先去登录哦</view>
+    </view>
+  </view>
+  <!-- 登录之后 -->
+  <view wx:else bindtap="dispear">
+
+    <!-- 导航栏 -->
+  <view class="menu">
+    <view class="{{curIndex==index?'active':''}}" bindtap="navIndex" data-index="{{index}}" wx:for="{{navArr}}" wx:key="*this">{{item}}</view>
+  </view>
+    <!-- 菜单列表 -->
+    <view>
+      <!-- 菜单列表 -->
+      <view  hidden="{{!(curIndex==0)}}">
+        <!-- 没有东西 -->
+        <view wx:if="{{ menuArr.length<=0 }}" class="no-pbmenu">
+          <image src="../../static/my/img01.jpg"></image>
+          <view>您还没发布过菜单哦</view>
+        </view>
+        <!-- 有东西 -->
+        <view class="hot-recipe-list" wx:else>
+          <block wx:for="{{ menuArr }}" wx:key="id">
+            <view class="hot-recipe-list-item" catchtap="toDetail" data-name="{{userInfo.nickName}}" data-img="{{userInfo.avatarUrl}}" data-id="{{item._id}}" data-title="{{item.recipeName}}"  bindlongpress="_delStyle" data-index="{{ index }}" >
+              <!-- 内容区域 -->
+              <view >
+                <!-- 图片 -->
+                <image src="{{ item.fields[0] }}"></image>
+                <!-- 名字 -->
+                <view class="hot-recipe-list-item-title">{{ item.recipeName }}</view>
+                <!-- 发布人及浏览次数 -->
+                <view class="hot-recipe-list-item-info">
+                  <view class="left">
+                    <image src="{{userInfo.avatarUrl}}"></image>
+                    <text> {{userInfo.nickName}}</text>
+                  </view>
+                  <view class="right">
+                    <image src="../../imgs/airs.png"></image>
+                    <text>{{item.views}}</text>
+                  </view>
+                </view>
+              </view>
+
+              <!-- 遮罩层区域 -->
+              <view class="cover" style="opacity: {{ cuopacity==index?'1':'0' }};">
+                 <mp-icon catchtap="_doDelete" data-id="{{ item._id }}" size="30" color="#fff" icon="delete"></mp-icon>
+              </view>
+
+            </view>
+
+          </block>
+        </view>
+      </view>
+      <!-- 加号 -->
+      <view class="jia" bindtap="addMeun">
+        <image src="../../static/my/jia.png"></image>
+      </view>
+    </view>
+    <!-- 分类列表 -->
+    <view class="type-list" hidden="{{!(curIndex==1)}}">
+      <block wx:for="{{ clasList }}">
+        <view class="list-item" bindtap="tolist" data-id="{{item._id}}" data-tag="my" data-title="{{item.typename}}">
+          <!-- <image src="{{ item.src }}"></image> -->
+          <text>{{ item.typename }}</text>
+          <image class="onlyimage" src="../../static/my/next.jpg"></image>
+        </view>
+      </block>
+    </view>
+    <!-- 关注列表 -->
+    <view hidden="{{!(curIndex==2)}}">
+      <!-- 没有关注 -->
+      <view class="no-follow" wx:if="{{ recList.length <=0 }}">
+        <image src="../../static/my/nofollow.jpg"></image>
+        <view>您还没关注哦</view>
+      </view>
+      <!-- 关注菜单 -->
+      <view wx:else>
+        <block wx:for="{{ recList }}">
+          <view class="list" bindtap="toDetail" data-name="{{user[index].data[0].nickName}}" data-img="{{user[index].data[0].avatarUrl}}" data-id="{{item[0]._id}}" data-title="{{item[0].recipeName}}">
+            <image src="{{ item[0].fields[0] }}" class="recipe-image"></image>
+            <!-- 基本信息 -->
+            <view class="list-info">
+              <view class="list-name">{{ item[0].recipeName }}</view>
+              <view class="list-info-userinfo">
+                <image src="{{user[index].data[0].avatarUrl}}"></image>
+                <text>{{user[index].data[0].nickName}}</text>
+              </view>
+              <view class="xing">
+                <!-- 星星 -->
+                <image src="../../static/list/xing3.png"></image>
+              </view>
+              <view class="number">
+                <view>
+                  <image src="../../static/list/followed.png"></image>
+                  <text>{{ item[0].follows }}</text>
+                </view>
+                <view>
+                  <image src="../../static/list/airs.png"></image>
+                  <text>{{ item[0].views }}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+  </view>
+
+
+</view>

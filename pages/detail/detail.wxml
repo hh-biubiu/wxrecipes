@@ -1,0 +1,60 @@
+<view>
+  <!-- swiper轮播图 -->
+  <swiper class="swiper" indicator-dots="{{ true }}" indicator-color="#fff" indicator-active-color="#eb9834">
+    <block wx:for="{{ deList[0].fields }}">
+      <swiper-item>
+        <image src="{{ item }}"></image>
+      </swiper-item>
+    </block>
+  </swiper>
+  <!-- 名称 -->
+  <view class="info">
+    <view class="info-top">
+      <text space="nbsp">l 营养早餐</text>
+    </view>
+    <view class="info-bottom">
+      <view class="left">
+        <image src="{{option.img}}"></image>
+        <text space="nbsp">{{option.name}}</text>
+      </view>
+      <view class="center">
+        <image src="../../static/detail/followed.png"></image>
+        <text>{{deList[0].follows}}</text>
+      </view>
+      <view class="right">
+        <image src="../../imgs/airs.png"></image>
+        <text>{{deList[0].views}}</text>
+      </view>
+    </view>
+  </view>
+  <view style="width:100%;height:30rpx;background-color:#f9f9f9"></view>
+  <!-- 做法显示 -->
+  <view class="makes">
+    <view class="makes-title">
+      用料
+    </view>
+    <view class="makes-content">
+      {{deList[0].recipeMakes}}
+    </view>
+  </view>
+
+  <!-- 底部显示 -->
+  <view class="bottom-set">
+    <view class="set-follow">
+      <!-- 没有关注 -->
+      <view wx:if="{{ !isFolw }}" bindtap="doFollow">
+        <image src="../../static/detail/follow.png"></image>
+        <text>关注</text>
+      </view>
+
+      <!-- 已经关注 -->
+      <view wx:else  bindtap="doFollow">
+        <image src="../../static/detail/followed.png"></image>
+        <text style="color: #ea932a;">已关注</text>
+      </view>
+    </view>
+    <view class="set-concat" bindtap="connect"> 
+      <button>联系客服</button>
+    </view>
+  </view>
+</view>
